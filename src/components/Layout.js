@@ -23,15 +23,15 @@ const Layout = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const theme = createTheme();
-    const [showDrawer, setShowDrawer] = useState(false);
+    const [showTempDrawer, setShowTempDrawer] = useState(false);
+    const [showPersistentDrawer, setShowPersistentDrawer] = useState(true);
     const drawerWidth = 240;
 
     const handleListItemClick = (path) => {
-        setShowDrawer(false);
+        setShowTempDrawer(false);
         location.pathname !== path && navigate(path);
     }
     
-
     const menuItems = [
         {
             id: 1,
@@ -76,15 +76,27 @@ const Layout = ({ children }) => {
                 <AppBar
                     position="fixed"
                     elevation={0}
-                    sx={{width: {md: `calc(100% - ${drawerWidth}px)`}}}
+                    sx={{width: {md: showPersistentDrawer ? `calc(100% - ${drawerWidth}px)` : "100%"}}}
                 >
                     <Toolbar>
+                        {/* When Persistent Drawer is visible */}
                         <IconButton
                             color="inherit"
                             size="large"
                             edge="start"
-                            onClick={() => setShowDrawer((prev) => !prev)}
+                            onClick={() => setShowTempDrawer((prev) => !prev)}
                             sx={{display: {md: "none"}}}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                        {/* When Temporary Drawer is visible */}
+                        <IconButton
+                            color="inherit"
+                            size="large"
+                            edge="start"
+                            onClick={() => setShowPersistentDrawer((prev) => !prev)}
+                            sx={{display: {xs: "none", md: "block"}}}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -106,12 +118,13 @@ const Layout = ({ children }) => {
                 </AppBar>
 
                 <Drawer
-                    variant="permanent"
+                    variant="persistent"
                     sx={{
                         width: drawerWidth,
                         ".MuiDrawer-paper": {width: drawerWidth},
                         display: {xs: "none", md: "block"}
                     }}
+                    open={showPersistentDrawer}
                 >
                     {drawer}
                 </Drawer>
@@ -119,12 +132,12 @@ const Layout = ({ children }) => {
                 <Drawer
                     variant="temporary"
                     sx={{
-                        width: "60%",
-                        ".MuiDrawer-paper": {width: "60%"},
+                        width: "50%",
+                        ".MuiDrawer-paper": {width: "50%"},
                         display: {md: "none"}
                     }}
-                    open={showDrawer}
-                    onClose={() => setShowDrawer(false)}
+                    open={showTempDrawer}
+                    onClose={() => setShowTempDrawer(false)}
                 >
                     {drawer}
                 </Drawer>

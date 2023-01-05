@@ -23,12 +23,12 @@ const Layout = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const theme = createTheme();
-    const [showTempDrawer, setShowTempDrawer] = useState(false);
+    const [showTemporaryDrawer, setShowTemporaryDrawer] = useState(false);
     const [showPersistentDrawer, setShowPersistentDrawer] = useState(true);
     const drawerWidth = 240;
 
     const handleListItemClick = (path) => {
-        setShowTempDrawer(false);
+        setShowTemporaryDrawer(false);
         location.pathname !== path && navigate(path);
     }
     
@@ -84,7 +84,7 @@ const Layout = ({ children }) => {
                             color="inherit"
                             size="large"
                             edge="start"
-                            onClick={() => setShowTempDrawer((prev) => !prev)}
+                            onClick={() => setShowTemporaryDrawer((prev) => !prev)}
                             sx={{display: {md: "none"}}}
                         >
                             <MenuIcon />
@@ -120,8 +120,8 @@ const Layout = ({ children }) => {
                 <Drawer
                     variant="persistent"
                     sx={{
-                        width: drawerWidth,
-                        ".MuiDrawer-paper": {width: drawerWidth},
+                        width: showPersistentDrawer ? drawerWidth : 0,
+                        ".MuiDrawer-paper": {width: showPersistentDrawer ? drawerWidth : 0},
                         display: {xs: "none", md: "block"}
                     }}
                     open={showPersistentDrawer}
@@ -136,8 +136,8 @@ const Layout = ({ children }) => {
                         ".MuiDrawer-paper": {width: "50%"},
                         display: {md: "none"}
                     }}
-                    open={showTempDrawer}
-                    onClose={() => setShowTempDrawer(false)}
+                    open={showTemporaryDrawer}
+                    onClose={() => setShowTemporaryDrawer(false)}
                 >
                     {drawer}
                 </Drawer>

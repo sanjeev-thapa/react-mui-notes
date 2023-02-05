@@ -1,6 +1,6 @@
 # React MUI Notes App
 
-Simple and easy to use note saving app that records thoughts, ideas or reminders.
+Simple and easy to use note saving app that records thoughts, ideas and reminders.
 
 
 * Frontend - [React](https://reactjs.org/), [MUI](https://mui.com/)
@@ -8,18 +8,22 @@ Simple and easy to use note saving app that records thoughts, ideas or reminders
 
 ## 📜 Table of content
 
-- [Setup](#setup)
-- [Available Scripts](#available-scripts)
-- [License](#license)
+- [Setup](#-setup)
+- [Available Scripts](#-available-scripts)
+- [License](#-license)
 
 ## ⚙️ Setup
 
 1. Frontend - React
-	* Install dependencies: <br/>
+	* Install dependencies:\
      `npm install`
      
-	* Start the development mode: <br/>
+	* Start the development mode:\
    	`npm start`
+
+2. Backend - JSON Server
+	* Start the json-server:\
+    `npx json-server --watch data/db.json --port 8000`
 
 ## 📄 Available Scripts
 In the project directory, you can run:

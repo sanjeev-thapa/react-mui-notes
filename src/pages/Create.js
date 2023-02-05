@@ -5,8 +5,17 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import useForm from "../hooks/useForm";
 import FormInput from "../components/FormInput";
 import noteSchema from "../schemas/noteSchema";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import axios from "../api/axios";
+import requests from "../api/requests";
 
 const Create = () => {
+    
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const radios = [
         {
@@ -65,8 +74,24 @@ const Create = () => {
 
     const { handleSubmit, handleValidation, handleClick, error } = useForm({
         validationSchema: noteSchema,
-        onSubmit: (data, e) => {
-            //
+        onSubmit: (data) => {
+            setIsLoading(true);
+
+            axios.post(requests.notes, data)
+                .then(data => {
+                    navigate("/");
+                    toast.success('Success: Note has been Created');
+                })
+                .catch(err => {
+                    let message = "An Error Occurred";
+
+                    if (!!err.response?.statusText) message = err.response.statusText;
+                    else if (!!err.request?.statusText) message = err.request.statusText;
+                    else message = err.message;
+
+                    toast.error(message, {theme: "colored"});
+                })
+                .finally(() => setIsLoading(false));
         }
     });
 
@@ -93,7 +118,7 @@ const Create = () => {
                 )) }
 
                 <div onClick={handleClick}>
-                    <Button
+                    {!!!isLoading && <Button
                         variant="contained"
                         type="Submit"
                         endIcon={<KeyboardArrowRightIcon />}
@@ -101,10 +126,23 @@ const Create = () => {
                         disabled={Object.entries(error).length > 0}
                     >
                         Create
-                    </Button>
+                    </Button>}
+
+                    {!!isLoading && <Button
+                        variant="contained"
+                        type="Submit"
+                        endIcon={<KeyboardArrowRightIcon />}
+                        sx={{marginTop: 2}}
+                        disabled={true}
+                    >
+                        Creating
+                        <CircularProgress
+                            size={24}
+                            sx={{"position": "absolute"}}
+                        />
+                    </Button>}
                 </div>
             </form>
-
         </Container>
     );
 }

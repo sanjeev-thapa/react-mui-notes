@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Create from "./pages/Create";
+import Notes from "./pages/Notes";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,7 +11,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" />
+            <Route path="/" element={<Notes />} />
             <Route path="/create" element={<Create />} />
           </Routes>
         </Layout>
